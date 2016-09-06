@@ -2,8 +2,11 @@ module Homework.Homework03
     ( smallestDivisor,
       isDivisible,
       nthPrime,
+      circularPrimes,
       isPrime
     ) where
+import Data.List
+
 
 smallestDivisor:: (Integral a) => a -> a -> a
 smallestDivisor lowerBound upperBound
@@ -17,8 +20,11 @@ nthPrime :: (Integral a) => Int -> a
 nthPrime n = getPrimes !! (n - 1)
 
 
--- circularPrimes :: (Integral a) => a -> [a]
--- circularPrimes upperBound =
+circularPrimes :: Integer -> [Integer]
+circularPrimes upperBound = filter isCircularPrime [1..upperBound]
+
+isCircularPrime :: Integer -> Bool
+isCircularPrime x = all isPrime (map (\y -> read y :: Integer) (permutations (show x)))
 
 -- highestPrimeSum
 
