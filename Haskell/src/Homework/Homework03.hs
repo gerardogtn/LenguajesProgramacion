@@ -7,18 +7,17 @@ module Homework.Homework03
     ) where
 import Data.List
 
-
 smallestDivisor:: (Integral a) => a -> a -> a
-smallestDivisor lowerBound upperBound
-  = head $ filter (isDivisible [lowerBound..upperBound]) [2..]
+smallestDivisor lowerBound upperBound = smallestDivisor' [lowerBound..upperBound] 1
+  where smallestDivisor' elements acc
+          | null elements = acc
+          | otherwise = smallestDivisor' (tail elements) (lcm (head elements) acc)
 
 isDivisible:: (Integral a) => [a] -> a -> Bool
 isDivisible elements num = all (\x -> num `mod` x == 0) elements
 
-
 nthPrime :: (Integral a) => Int -> a
 nthPrime n = getPrimes !! (n - 1)
-
 
 circularPrimes :: Integer -> [Integer]
 circularPrimes upperBound = filter isCircularPrime [1..upperBound]
