@@ -16,6 +16,10 @@ height(node(_, L, R), Out) :-
   height(R, RHeight),
   Out is max(LHeight, RHeight) + 1.
 
+% Max
+max(node(K, empty, empty), K).
+max(node(_, _, R), Out) :- max(R, Out).
+
 % insertMain -> Crea un nuevo arbol vacio e inserta.
 insertMain(List, Tree) :- insertFromList(List, empty, Tree).
 
@@ -34,7 +38,27 @@ insert(X, node(K, L, R), Out) :-
   insert(X, R, UnbalancedRight),
   balance(node(K, L, UnbalancedRight), Out).
 
+% Delete
+delete(X, node(X, empty, empty), empty).
+delete(X, node(X, L, empty), Out) :- balance(L, Out).
+delete(X, node(X, empty, R), Out) :- balance(R, Out).
+delete(X, node(X, L, R), Out) :-
+  max(L, NewRoot),
+  delete(NewRoot, L, TempLeft),
+  balance(node(NewRoot, TempLeft, R), Out).
+
+delete(X, node(K, L, R), Out) :-
+  X < K,
+  delete(X, L, Temp),
+  balance(node(K, Temp, R), Out).
+delete(X, node(K, L, R), node(K, L, Out)) :-
+  X >= K,
+  delete(X, R, Temp),
+  balance(Temp, Out).
+
 %  Main Balance.
+balance(empty, empty).
+
 balance(node(K, L, R), Out) :-
   height(L, LHeight),
   height(R, RHeight),
