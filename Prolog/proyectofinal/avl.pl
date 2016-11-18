@@ -17,7 +17,7 @@ height(node(_, L, R), Out) :-
   Out is max(LHeight, RHeight) + 1.
 
 % Max
-max(node(K, empty, empty), K).
+max(node(K, _, empty), K).
 max(node(_, _, R), Out) :- max(R, Out).
 
 % insertMain -> Crea un nuevo arbol vacio e inserta.
